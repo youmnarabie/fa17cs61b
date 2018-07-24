@@ -58,12 +58,13 @@ class Arrays {
         int counter = 0;
         int currIndex = 0;
         int nextIndex = 1;
-        while (nextIndex != A.length);
-            while (A[currIndex] < A[nextIndex]) {
-                currIndex += 1;
-                nextIndex += 1;
-                counter += 1;
-            }
+        while (nextIndex != A.length) ;
+        while (A[currIndex] < A[nextIndex]) {
+            currIndex += 1;
+            nextIndex += 1;
+            counter += 1;
+        }
+        return new int[2][3];
             
     }
 

@@ -1,7 +1,7 @@
 /** Provides a variety of utilities for operating on matrices.
  *  All methods assume that the double[][] arrays provided are rectangular.
  *
- *  @author Josh Hug and YOU
+ *  @author Josh Hug and Youmna Rabie
  */
 
 public class MatrixUtils {
@@ -15,7 +15,7 @@ public class MatrixUtils {
      *  See http://goo.gl/73xqAu for more.
      */
 
-    static enum Orientation { VERTICAL, HORIZONTAL };
+    static enum Orientation { VERTICAL, HORIZONTAL }
 
     /** Non-destructively accumulates an energy matrix in the vertical
      *  direction.
@@ -51,31 +51,29 @@ public class MatrixUtils {
      *  2162923   2124919   2124919   2124919
      *
      */
-    public static double get(double[][] e, int r, int c){
+    public static double get(double[][] e, int r, int c) {
         int height = e.length;
         int width = e[0].length;
-        if ((c < 0) || (c >= width) || (r < 0) || (r >= height)) {
+        if (0 <= r && r < height && 0 <= c && c < width) {
+            return e[r][c];
+        } else {
             return Double.POSITIVE_INFINITY;
         }
-        return e[r][c];
-
     }
+
     public static double[][] accumulateVertical(double[][] m) {
-        m = copy(m);
-        int height = m.length;
-        int width = m[0].length;
-        for (int row = 1; row < height; row += 1){
-            for (int column = 0; column < width; column += 1){
-                double bestEnergy = Double.POSITIVE_INFINITY;
-                for (int colChange = -1; colChange <= 1; colChange += 1){
-                    if ((get(m, row - 1, column + colChange)) < bestEnergy){
-                        bestEnergy = get(m, row - 1, column + colChange);
+            for (int row = 1; row < m.length; row += 1) {
+                for (int col = 0; col < m[0].length; col += 1) {
+                    double bestEnergy = Double.POSITIVE_INFINITY;
+                    for (int colChange = -1; colChange <= 1; colChange += 1) {
+                        if (get(m, row - 1, col + colChange) < bestEnergy) {
+                            bestEnergy = get(m, row - 1, col + colChange);
+                        }
                     }
+                    m[row][col] += bestEnergy;
                 }
-                m[row][column] += bestEnergy;
             }
-        }
-        return m;
+            return m;
     }
 
     /** Non-destructively accumulates a matrix M along the specified
@@ -91,7 +89,7 @@ public class MatrixUtils {
      *  accumulateVertical(mT) returns the correct result.
      *
      *  accumulate should be very short (only a few lines). Most of the
-     *  work should be done in creaing the helper function (and even
+     *  work should be done in creating the helper function (and even
      *  that function should be pretty short and straightforward).
      *
      *  The important lesson here is that you should never have big
@@ -104,16 +102,16 @@ public class MatrixUtils {
         int height = m.length;
         int width = m[0].length;
         double[][] mT = new double[width][height];
-        for (int row = 0; row < height; row += 1){
-            for (int column = 0; column < width; column += 1){
-                mT[column][row] = m[row][column];
+        for (int row = 0; row < height; row += 1) {
+            for (int col = 0; col < width; col += 1) {
+                mT[col][row] = m[row][col];
             }
         }
         return mT;
     }
 
     public static double[][] accumulate(double[][] m, Orientation orientation) {
-        if (orientation == Orientation.HORIZONTAL){
+        if (orientation == Orientation.HORIZONTAL) {
             return accumulateVertical(flip(m));
         } else {
             return accumulateVertical(m);
@@ -149,8 +147,32 @@ public class MatrixUtils {
      *  total energy is approximately equal.
      */
 
+    public static int minIndex(double[] arr, int lo, int hi) {
+            int minIndex = 0;
+            double min = Double.POSITIVE_INFINITY;
+            double sum = 0;
+            for (double i : arr) {
+                sum += i;
+            }
+            if (sum == arr[lo] * arr.length) {
+                return 1;
+            }
+            while (lo <= hi) {
+                if (arr[lo] < min) {
+                    min = arr[lo];
+                    minIndex = lo;
+                }
+                lo += 1;
+            }
+        return minIndex;
+    }
+
     public static int[] findVerticalSeam(double[][] m) {
-        return null; //your code here
+        int[] ret = new int[m.length];
+        for (int i = 0; i < m.length; i += 1) {
+            ret[i] = minIndex(m[i], 0, m[i].length-1);
+        }
+        return ret;
     }
 
     /** Returns the SEAM of M with the given ORIENTATION.
@@ -159,16 +181,20 @@ public class MatrixUtils {
      */
 
     public static int[] findSeam(double[][] m, Orientation orientation) {
-        return null; //your code here
+        if (orientation == Orientation.HORIZONTAL) {
+            return findVerticalSeam(flip(m));
+        } else {
+            return findVerticalSeam(m);
+        }
     }
 
     /** does nothing. ARGS not used. use for whatever purposes you'd like */
     public static void main(String[] args) {
-        /* sample calls to functions in this class are below
+        //sample calls to functions in this class are below
+        Picture toUse = new Picture("4x6.png");
+        ImageRescaler sc = new ImageRescaler(toUse);
 
-        ImageRescaler sc = new ImageRescaler("4x6.png");
-
-        double[][] em = ImageRescaler.energyMatrix(sc);
+        double[][] em = sc.energyMatrix();
 
         //double[][] m = sc.cumulativeEnergyMatrix(true);
         double[][] m = MatrixUtils.accumulateVertical(em);
@@ -189,7 +215,6 @@ public class MatrixUtils {
         int[] leps = MatrixUtils.findSeam(ms, Orientation.HORIZONTAL);
 
         System.out.println(seamToString(ms, leps, Orientation.HORIZONTAL));
-        */
     }
 
 
@@ -214,7 +239,7 @@ public class MatrixUtils {
     }
 
     /** Returns a copy of the matrix M. Note that it is probably a better idea
-     *  to use System.arraycopy for general 2D arrays since
+     *  to use System.arraycopy for general 2D arrays
      */
 
     public static double[][] copy(double[][] m) {
