@@ -51,21 +51,50 @@ class Arrays {
      * returns the three-element array
      * {{1, 3, 7}, {5}, {4, 6, 9, 10}}.
      */
+    static int numSubs(int[] A) {
+        int num = 0;
+        int curr = 0;
+        int next = 1;
+        while (next < A.length) {
+            while (next < A.length && A[curr] < A[next]) {
+                curr += 1;
+                next += 1;
+            }
+            curr += 1;
+            next += 1;
+            num += 1;
+        }
+        return num;
+    }
     static int[][] naturalRuns(int[] A) {
-        if (A == null) {
-            return null;
+        int len = numSubs(A);
+        int[][] ret = new int[len][];
+        int first = 0;
+        int next = 1;
+        int holdLength = 0;
+        int retPos = 0;
+        int pointer = 0;
+        while (retPos < len) {
+            while (next < A.length && A[first] < A[next]) {
+                holdLength += 1;
+                first += 1;
+                next += 1;
+            }
+            first += 1;
+            next += 1;
+            holdLength += 1;
+            int[] holder = new int[holdLength];
+            int holdPointer = 0;
+            while (holdPointer < holdLength) {
+                holder[holdPointer] = A[pointer];
+                pointer += 1;
+                holdPointer += 1;
+            }
+            ret[retPos] = holder;
+            retPos += 1;
+            holdLength = 0;
         }
-        int counter = 0;
-        int currIndex = 0;
-        int nextIndex = 1;
-        while (nextIndex != A.length) ;
-        while (A[currIndex] < A[nextIndex]) {
-            currIndex += 1;
-            nextIndex += 1;
-            counter += 1;
-        }
-        return new int[2][3];
-            
+        return ret;
     }
 
 }
