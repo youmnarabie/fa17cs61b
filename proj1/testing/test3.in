@@ -1,0 +1,32 @@
+load sandwich; load yelp;
+
+/* Select sandwiches, price, review from two tables using condition from a non-selected column */
+select Sandwiches, Price, Review from sandwich, yelp where Rating = '10';
+
+
+/* Selecting something that doesn't exist shouldn't break it*/
+select Sandwiches from sandwich where Sandwiches = 'sub';
+
+/* Make a new table from scratch */
+create table Dogs (Name, Breed, Size, Age, Color);
+
+/* Populate Dogs */
+insert into Dogs values ('Lucky', 'Husky', 'Large', '5', 'Black and white');
+insert into Dogs values ('Sparky', 'Great Dane', 'Huge!', '2 months', 'Chocolate');
+insert into Dogs values ('Ellie', 'mutt', 'tiny', '6 years', 'white');
+insert into Dogs values ('Bolt','Chihuahua', 'small', '15 years', 'caramel');
+
+/* Print out new table */
+
+print Dogs;
+
+/* Create new table to test with select */
+create table Owners (Name, Members, Kids);
+
+/* Populate! */
+insert into Owners values ('Lucky', '5', 'Yes');
+insert into Owners values ('Ellie', '4', 'No');
+
+/* Select */
+ select Name, Kids from Dogs, Owners where Members = '5' and Name = 'Lucky';
+
