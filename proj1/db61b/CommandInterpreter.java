@@ -154,12 +154,7 @@ class CommandInterpreter {
 
     /** Parse and execute a create statement from the token stream. */
     void createStatement() {
-        _input.next("create");
-        _input.next("table");
-        String name = name();
-        Table table = tableDefinition();
-        _database.put(name, table);
-        _input.next(";");
+        //to do
     }
 
     /** Parse and execute an exit or quit statement. Actually does nothing
@@ -175,68 +170,30 @@ class CommandInterpreter {
 
     /** Parse and execute an insert statement from the token stream. */
     void insertStatement() {
-        _input.next("insert");
-        _input.next("into");
-        Table table = tableName();
-        _input.next("values");
-        ArrayList<String> values = new ArrayList<>();
-        int k = table.columns();
-
-        while (true) {
-            _input.next("(");
-            for (int i = 0; i < k; i += 1) {
-                values.add(literal());
-                _input.nextIf(",");
-            }
-            _input.next(")");
-            table.add(values.toArray(new String[k]));
-            if (!_input.nextIf(",")) {
-                break;
-            }
-            values.clear();
-        }
-        _input.next(";");
+        //to do
     }
 
 
     /** Parse and execute a load statement from the token stream. */
     void loadStatement() {
-        _input.next("load");
-        String name = _input.peek();
-        Table table = Table.readTable(_input.next());
-        _input.next(";");
-        _database.put(name, table);
-        System.out.printf("Loaded %s.db%n", name);
+        //to do
     }
 
     /** Parse and execute a store statement from the token stream. */
     void storeStatement() {
-        _input.next("store");
-        String name = _input.peek();
-        Table table = tableName();
-        table.writeTable(name);
-        System.out.printf("Stored %s.db%n", name);
-        _input.next(";");
+        // to do
     }
 
 
     /** Parse and execute a print statement from the token stream. */
     void printStatement() {
-        _input.next("print");
-        String name = _input.peek();
-        Table table = tableName();
-        System.out.printf("Contents of %s:%n", name);
-        _input.next(";");
-        table.print();
+        //to do
     }
 
 
     /** Parse and execute a select statement from the token stream. */
     void selectStatement() {
-        Table table = selectClause();
-        System.out.println("Search results:");
-        table.print();
-        _input.next(";");
+        //to do
     }
 
     /** Parse and execute a table definition, returning the specified
@@ -261,25 +218,8 @@ class CommandInterpreter {
     /** Parse and execute a select clause from the token stream, returning the
      *  resulting table. */
     Table selectClause() {
-        _input.next("select");
-        List<String> columns = new ArrayList<>();
-        Table result;
-        Table add = null;
-        columns.add(columnName());
-        while (_input.nextIf(",")) {
-            columns.add(columnName());
-        }
-        _input.next("from");
-        Table table = tableName();
-        if (_input.nextIf(",")) {
-            add = tableName();
-        }
-        if (add == null) {
-            result = table.select(columns, conditionClause(table));
-        } else {
-            result = table.select(add, columns, conditionClause(table, add));
-        }
-        return result;
+        //to do
+        return null;
     }
 
     /** Parse and return a valid name (identifier) from the token stream. */

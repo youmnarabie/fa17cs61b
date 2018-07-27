@@ -20,51 +20,30 @@ class Table {
      * not contain duplicate names.
      */
     Table(String[] columnTitles) {
-        if (columnTitles.length == 0) {
-            throw error("table must have at least one column");
-        }
-        _size = 0;
-        _rowSize = columnTitles.length;
-
-        for (int i = columnTitles.length - 1; i >= 1; i -= 1) {
-            for (int j = i - 1; j >= 0; j -= 1) {
-                if (columnTitles[i].equals(columnTitles[j])) {
-                    throw error("duplicate column name: %s",
-                            columnTitles[i]);
-                }
-            }
-        }
-        _titles = columnTitles;
-        _columns = new ValueList[_rowSize];
-        for (int k = 0; k < _rowSize; k += 1) {
-            _columns[k] = new ValueList();
-        }
+        //to do
     }
 
     /**
      * A new Table whose columns are give by COLUMNTITLES.
      */
     Table(List<String> columnTitles) {
-        this(columnTitles.toArray(new String[columnTitles.size()]));
+        //to do
     }
 
     /**
      * Return the number of columns in this table.
      */
     public int columns() {
-        return _titles.length;
+        //to do
+        return 0;
     }
 
     /**
      * Return the title of the Kth column.  Requires 0 <= K < columns().
      */
     public String getTitle(int k) {
-        if (k > columns() || k < 0) {
-            throw new
-                    IndexOutOfBoundsException("invalid k");
-        } else {
-            return _titles[k];
-        }
+        //to do
+        return null;
     }
 
     /**
@@ -72,12 +51,8 @@ class Table {
      * there isn't one.
      */
     public int findColumn(String title) {
-        for (int i = 0; i < _titles.length; i += 1) {
-            if (_titles[i].equals(title)) {
-                return i;
-            }
-        }
-        return -1;
+        //to do
+        return 0;
     }
 
 
@@ -85,7 +60,8 @@ class Table {
      * Return the number of rows in this table.
      */
     public int size() {
-        return _size;
+        //to do
+        return 0;
     }
 
     /**
@@ -93,11 +69,8 @@ class Table {
      * of record number ROW (0 <= ROW < size()).
      */
     public String get(int row, int col) {
-        try {
-            return _columns[col].get(row);
-        } catch (IndexOutOfBoundsException excp) {
-            throw error("invalid row or column");
-        }
+        //to do
+        return null;
     }
 
     /**
@@ -107,72 +80,8 @@ class Table {
      */
 
     public boolean add(String[] values) {
-        for (int i = 0; i < size(); i += 1) {
-            for (int j = 0; j < columns(); j += 1) {
-                if (!values[j].equals(get(i, j))) {
-                    break;
-                } else if (j == columns() - 1) {
-                    return false;
-                } else {
-                    continue;
-                }
-            }
-        }
-        _size += 1;
-        _rows.add(values);
-        _rowsrows.add(values);
-        for (int curr = 0; curr < _columns.length; curr += 1) {
-            _columns[curr].add(values[curr]);
-        }
-        int originalSize = _index.size();
-        int numIndex = _size - 1;
-        for (int counter = 0; counter < _size; counter += 1) {
-            if (_size == 1) {
-                _index.add(numIndex);
-                break;
-            } else if (counter == _size - 1) {
-                _index.add(numIndex);
-                break;
-            } else if (compareRows(counter, numIndex) < 0) {
-                continue;
-            } else {
-                //_index.add(counter, numIndex);
-                //break;
-                int posInIndex = 0;
-                for (int i = 0; i < _index.size(); i += 1) {
-                    if (_index.get(i) == counter) {
-                        posInIndex = i;
-                        break;
-                    }
-                }
-                if (posInIndex == 0) {
-                    _index.add(counter, numIndex);
-                    break;
-                } else {
-                    int holder = counter;
-                    while (compareRows(holder, numIndex) > 0) {
-                        holder += 1;
-                        if (compareRows(holder, numIndex) < 0) {
-                            int posInIndex2 = 0;
-                            for (int i = 0; i < _index.size(); i += 1) {
-                                if (_index.get(i) == holder) {
-                                    posInIndex2 = i;
-                                    break;
-                                }
-                            }
-                            _index.add(posInIndex2 + 1, numIndex);
-                            break;
-                        } else if (holder == numIndex) {
-                            _index.add(numIndex);
-                        }
-                    }
-                    if (_index.size() != originalSize) {
-                        break;
-                    }
-                }
-            }
-        }
-        return true;
+        //to do
+        return false;
     }
 
 
@@ -184,13 +93,7 @@ class Table {
      * extract values.
      */
     public boolean add(List<Column> columns, Integer... rows) {
-        String[] newRow = new String[columns.size()];
-        for (int i = 0; i < columns.size(); i += 1) {
-            newRow[i] = columns.get(i).getFrom(rows[i]);
-        }
-        if (!_rows.contains(newRow)) {
-            add(newRow);
-        }
+        //to do
         return false;
     }
 
@@ -203,7 +106,7 @@ class Table {
         Table table;
         input = null;
         try {
-            String fileName = "/Users/youmnarabie/repo/proj1/testing/";
+            String fileName = "/Documents/fa17cs61b/proj1/testing/";
             input = new BufferedReader(new FileReader(name + ".db"));
             String header = input.readLine();
             if (header == null) {
@@ -278,12 +181,7 @@ class Table {
      * and indented by two spaces.
      */
     void print() {
-        for (int i : _index) {
-            for (int j = 0; j < _rowSize; j += 1) {
-                System.out.print(" " + _rowsrows.get(i)[j]);
-            }
-            System.out.println();
-        }
+        //to do
     }
 
 
@@ -292,18 +190,8 @@ class Table {
      * rows of this table that satisfy CONDITIONS.
      */
     Table select(List<String> columnNames, List<Condition> conditions) {
-        Table result = new Table(columnNames);
-        for (int i = 0; i < _size; i += 1) {
-            if (Condition.test(this, conditions, i)) {
-                String[] newRow = new String[columnNames.size()];
-                for (int j = 0; j < columnNames.size(); j += 1) {
-                    int originalIndex = findColumn(columnNames.get(j));
-                    newRow[j] = get(i, originalIndex);
-                }
-                result.add(newRow);
-            }
-        }
-        return result;
+        //to do
+        return null;
     }
 
     /**
@@ -313,47 +201,8 @@ class Table {
      */
     Table select(Table table2, List<String> columnNames,
                  List<Condition> conditions) {
-        ArrayList<Column> common1 = new ArrayList<>();
-        ArrayList<Column> common2 = new ArrayList<>();
-        ArrayList<String> allColNames = new ArrayList<>();
-        for (int i = 0; i < columns(); i += 1) {
-            allColNames.add(getTitle(i));
-        }
-        for (int i = 0; i < table2.columns(); i += 1) {
-            if (!allColNames.contains(table2.getTitle(i))) {
-                allColNames.add(table2.getTitle(i));
-            }
-        }
-        Table naturalJoin = new Table(allColNames);
-        for (int i = 0; i < columns(); i += 1) {
-            String colTitle = getTitle(i);
-            int indexIn2 = table2.findColumn(colTitle);
-            if (indexIn2 >= 0) {
-                Column col1 = new Column(colTitle, this);
-                Column col2 = new Column(colTitle, table2);
-                common1.add(col1);
-                common2.add(col2);
-            }
-        }
-        for (int j = 0; j < table2.size(); j += 1) {
-            for (int k = 0; k < size(); k += 1) {
-                String[] newRow = new String[allColNames.size()];
-                boolean equi = equijoin(common1, common2, k, j);
-                if (equi) {
-                    for (int m = 0; m < allColNames.size(); m += 1) {
-                        if (m < columns()) {
-                            newRow[m] = get(k, m);
-                        } else {
-                            String thisColName = allColNames.get(m);
-                            int posIn2 = table2.findColumn(thisColName);
-                            newRow[m] = table2.get(j, posIn2);
-                        }
-                    }
-                    naturalJoin.add(newRow);
-                }
-            }
-        }
-        return naturalJoin.select(columnNames, conditions);
+        //to do
+        return null;
     }
 
 
@@ -363,12 +212,7 @@ class Table {
      *  _columns[0].get(K1), _columns[1].get(K1), ....  This method ignores
      *  the _index. */
     private int compareRows(int k0, int k1) {
-        for (int i = 0; i < _columns.length; i += 1) {
-            int c = _columns[i].get(k0).compareTo(_columns[i].get(k1));
-            if (c != 0) {
-                return c;
-            }
-        }
+        //to do
         return 0;
     }
 
@@ -380,17 +224,19 @@ class Table {
      *  into those tables. */
     private static boolean equijoin(List<Column> com1, List<Column> com2,
                                     int row1, int row2) {
-        for (int i = 0; i < com1.size(); i += 1) {
-            String one = com1.get(i).getFrom(row1);
-            String two = com2.get(i).getFrom(row2);
-            boolean relation = one.equals(two);
-            if (!relation) {
-                return false;
-            }
-        }
-        return true;
+        //to do
+        return false;
 
     }
+
+    /** My column titles. */
+    //CHANGE THESE
+    private final String[] _titles = new String[0];
+    /** My columns. Row i consists of _columns[k].get(i) for all k. */
+    private final ValueList[] _columns = new ValueList[1];
+    /** My rows in a hashset.*/
+    private HashSet<String[]> _rows = new HashSet<>();
+
 
     /** A class that is essentially ArrayList<String>.  For technical reasons,
      *  we need to encapsulate ArrayList<String> like this because the
@@ -403,13 +249,6 @@ class Table {
      *  issue. */
     private static class ValueList extends ArrayList<String> {
     }
-
-    /** My column titles. */
-    private final String[] _titles;
-    /** My columns. Row i consists of _columns[k].get(i) for all k. */
-    private final ValueList[] _columns;
-    /** My rows in a hashset.*/
-    private HashSet<String[]> _rows = new HashSet<>();
 
     /** Rows in the database are supposed to be sorted. To do so, we
      *  have a list whose kth element is the index in each column
@@ -427,10 +266,5 @@ class Table {
 
     /** An arraylist of all rows (added for .get() functionality). */
     private ArrayList<String[]> _rowsrows = new ArrayList<>();
-
-    /** My number of rows (redundant, but convenient). */
-    private int _size;
-    /** My number of columns (redundant, but convenient). */
-    private final int _rowSize;
 
 }

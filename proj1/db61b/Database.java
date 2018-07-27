@@ -15,19 +15,14 @@ class Database {
     /** Return the Table whose name is NAME stored in this database, or null
      *  if there is no such table. */
     public Table get(String name) {
-        if (_names.containsKey(name)) {
-            return _names.get(name);
-        }
+        // to do
         return null;
     }
 
     /** Set or replace the table named NAME in THIS to TABLE.  TABLE and
      *  NAME must not be null, and NAME must be a valid name for a table. */
     public void put(String name, Table table) {
-        if (name == null || table == null) {
-            throw new IllegalArgumentException("null argument");
-        }
-        _names.put(name, table);
+        //to do
     }
 
     /** A hashmap with table names as the keys and tables as the values.*/
